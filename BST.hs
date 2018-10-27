@@ -1,15 +1,43 @@
 module BST (
    Tree(Null, Node),
    size,
-   depth
+   depth,
+   leaves,
+   insert,
+   treeContains,
+   treeMax,
+   treeMap,
+   treeIsValid,
 )where
 
+import Seta
+
+-- 5
+--NUll   6
+--      6.5   7
+--         Null  Null
+--Node 5 (Null (Node 6 NUll (Node 7 Null Null)))
+-- 1   -- 2^0
+-- 2   -- 2^1
+-- 4   -- 2^2
+-- 8    -- 2^3
+-- 16    -- 2^4
+--log_2 31 = 5
+--O(log n)
+-- 1 + max   0   depth (Node 6 NUll (Node 7 Null Null))
+-- 1 + max  0   (1 + max (depth Null) (depth (NOde 7 NUll Null)))
+-- 1 + max  0   (1 + max 0 (1 + max 0 0 ))
+-- 1 + max  0   (1 + max 0 (1 + 0))
+-- 1 + max  0   (1 + max 0 1)
+-- 1 + max  0   (1 + 1)
+-- 1 + max  0   2
+-- 1 + 2 = 3
 data Tree a = Null | Node a (Tree a) (Tree a)
      deriving (Show)
 
 size :: Tree a -> Int
 size Null = 0
-size (Node v l r) = 1 + (size l) + (size r)
+size (Node v l r) = 1 + (size l) + (size r) -
 
 depth :: Tree a -> Int
 depth Null = 0
@@ -44,6 +72,8 @@ treeContains (Node k l r) v
  |v <  k = treeContains l v
  |v >  k = treeContains r v
 
+
+
 treeMax :: (Ord a, Eq a) => Tree a -> a
 treeMax Null = error "No element!"
 treeMax (Node v Null Null) = v
@@ -54,7 +84,7 @@ treeMax (Node v l r) = max (treeMax l) (treeMax r)
 treeMap :: (a -> b) -> Tree a -> Tree b
 treeMap _ Null = Null
 treeMap f (Node v l r) = Node (f v) (treeMap f l) (treeMap f r)
-
+--f(x) = x + 1
 
 val :: Tree a -> a
 val (Node v l r)  = v
@@ -96,4 +126,43 @@ compound :: Double -> Double -> Int -> [Double]
 compound c _ 0 = [c]
 compound c i k = c : compound (c*(1.0+i)) i (k-1)
 
+quick_sort :: (Num a, Ord a) => [a] -> [a]
+quick_sort [] = []
+quick_sort (x:xs) = quick_sort [y | y <=  x , y <- xs] ++ [x] ++ quick_sort [y | y > x , y <- xs]
+-- sort [4,5,1,3,2]
+-- sort [1,3,2]  ++ [4] ++  sort [5]
+-- (sort [] ++ [1] ++ sort [3,2]) ++ [4] ++ (sort [] ++ [5] ++ sort [])
+-- ([] ++ [1] ++ (sort [2] ++[3] ++ sort [])) ++ [4] ++ ([] ++ [5] ++ [])
+-- ([] ++ [1] ++ ([] ++ [2] ++ [] ++ [] ++ [3] ++ [] ++ [])) ++ [4] ++ ([] ++ [5] ++ [])
+--x pivot
 -- [1,2,3] 2 5 = [1,2,5]
+-- 5
+-- 2 + 1 + 2
+-- 1 + 1 + 0 + 1 + 1 + 1 + 0
+
+--15
+--7 + 1 + 7 (2)
+--3 + 1 + 3 + 1 + 3 + 1 + 3 (4)
+--1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1
+-- O(nlogn)
+-- 8 [1,2,4,6,7]
+-- n + 1  [1..n] O(n)
+-- c n_0 0 <= f(n) <= c*g(n) => f(n) = O(g(n))
+-- F(N) = 2n g(n) = n f(n) = O(g(n))
+--f(n) = 4(n^3) + 3n^2 + n* log n => O(n^3)
+--
+fac :: Int -> Int
+fac 0 = 1
+fac n = n * fac (n-1)
+
+union :: [a] -> [a] -> [a]
+union [] [] = []
+union [] ys = ys
+union xs [] = xs
+union (x:xs) (y:ys) = case elem x (y:ys) of
+                          True -> union xs ys
+                          False -> x: union xs (y:ys)
+--f(n) = n => O(n)
+--ele
+
+-- n(log n )
