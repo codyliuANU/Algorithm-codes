@@ -1,6 +1,6 @@
 module Grading where
 
-
+import BST
 type Name = String
 type Program = String
 type Subjects = [String]

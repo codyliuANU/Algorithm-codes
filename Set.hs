@@ -10,3 +10,4 @@ f :: [Int] -> [Int]
 f [] = []
 f (x:xs) = fac x : f xs
 
+g :: ()

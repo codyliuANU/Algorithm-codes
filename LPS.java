@@ -22,4 +22,4 @@
 // c[i][j] = 0 // if i==0 , j == 0.
 //
 // Step 3, implement the algorithm (return optimization solution (length))
-// Step 4, according to the state table ,to find the "Z", return array.
+// Step 4, according to the state tasble ,to find the "Z", return array.

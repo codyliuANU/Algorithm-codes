@@ -1,4 +1,8 @@
-module BST where
+module BST (
+   Tree(Null, Node),
+   size,
+   depth
+)where
 
 data Tree a = Null | Node a (Tree a) (Tree a)
      deriving (Show)
@@ -40,6 +44,12 @@ treeContains (Node k l r) v
  |v <  k = treeContains l v
  |v >  k = treeContains r v
 
+treeMax :: (Ord a, Eq a) => Tree a -> a
+treeMax Null = error "No element!"
+treeMax (Node v Null Null) = v
+treeMax (Node v Null r) = max v (treeMax r)
+treeMax (Node v l Null) = max v (treeMax l)
+treeMax (Node v l r) = max (treeMax l) (treeMax r)
 
 treeMap :: (a -> b) -> Tree a -> Tree b
 treeMap _ Null = Null
